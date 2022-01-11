@@ -33,7 +33,7 @@ func GetAsString(key string, defaultValue string) string {
 		return value
 	}
 	if FatalOnMissingEnv {
-		log.Fatalln("[env] Exiting as environment variable", key, "is not set")
+		log.Fatalf("[env] environment variable [%s] not set", key)
 	}
 	return defaultValue
 }
