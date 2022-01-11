@@ -21,7 +21,8 @@ func LoadEnvFile(path string) {
 		return
 	}
 	if err := godotenv.Overload(path); err != nil {
-		log.Println("[env]", err)
+		log.Printf("[env] error: %s", err)
+		return
 	}
 	log.Printf("[env] %s loaded", path)
 }
@@ -40,10 +41,11 @@ func GetAsString(key string, defaultValue string) string {
 // GetAsInt reads an environment variable into integer or returns a default value
 func GetAsInt(name string, defaultValue int) int {
 	valueStr := GetAsString(name, "")
-	if value, err := strconv.Atoi(valueStr); err == nil {
-		return value
+	value, err := strconv.Atoi(valueStr)
+	if err != nil {
+		return defaultValue
 	}
-	return defaultValue
+	return value
 }
 
 // GetAsBool reads an environment variable into a bool or return default value
