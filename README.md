@@ -1,6 +1,8 @@
 # env
 simple env vars, checks if the env var exists or returns the default provided
 
+credit goes to https://github.com/17twenty for initial authoring
+
 
 ## Basic use
 
@@ -20,6 +22,17 @@ simple env vars, checks if the env var exists or returns the default provided
 
 LoadEnvFile("./.env.local")
 
-env := env.GetAsString("ENV", "dev")
+foo := env.GetAsString("ENV", "dev")
+
+```
+
+## Strict mode
+
+```go
+
+env.WithStrictMode()
+
+// ENV goes not exist
+foo := env.GetAsString("ENV", "dev")
 
 ```

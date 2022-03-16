@@ -9,22 +9,30 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var (
-	// FatalOnMissingEnv defines whether the library should fatal on encountering a missing environmental value
-	FatalOnMissingEnv = false
+const (
+	logPrefix = "[env]: "
 )
+
+var (
+	// strictMode defines whether the library should fatal on encountering a missing environmental value
+	strictMode = false
+)
+
+func WithStrictMode() {
+	strictMode = true
+}
 
 // LoadEnvFile - loads .env file
 func LoadEnvFile(path string) {
 	if path == "" {
-		log.Println("[env] No file provided, ")
+		log.Printf("%s No path provided", logPrefix)
 		return
 	}
 	if err := godotenv.Overload(path); err != nil {
-		log.Printf("[env] error: %s", err)
+		log.Printf("%s error loading file [%s]: %s", logPrefix, path, err)
 		return
 	}
-	log.Printf("[env] %s loaded", path)
+	log.Printf("%s file [%s] loaded", logPrefix, path)
 }
 
 // GetAsString reads an environment or returns a default value
@@ -32,8 +40,8 @@ func GetAsString(key string, defaultValue string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
 	}
-	if FatalOnMissingEnv {
-		log.Fatalf("[env] environment variable [%s] not set", key)
+	if strictMode {
+		log.Fatalf("%s environment variable [%s] not set", logPrefix, key)
 	}
 	return defaultValue
 }
