@@ -1,7 +1,7 @@
 package env
 
 import (
-	"log"
+	fmt "log"
 	"os"
 	"strconv"
 	"strings"
@@ -25,52 +25,51 @@ func WithStrictMode() {
 // LoadEnvFile - loads .env file
 func LoadEnvFile(path string) {
 	if path == "" {
-		log.Printf("%s No path provided", logPrefix)
+		fmt.Printf("%s No path provided", logPrefix)
 		return
 	}
 	if err := godotenv.Overload(path); err != nil {
-		log.Printf("%s error loading file [%s]: %s", logPrefix, path, err)
+		fmt.Printf("%s error loading file [%s]: %s", logPrefix, path, err)
 		return
 	}
-	log.Printf("%s file [%s] loaded", logPrefix, path)
+	fmt.Printf("%s file [%s] loaded", logPrefix, path)
 }
 
 // GetAsString reads an environment or returns a default value
-func GetAsString(key string, defaultValue string) string {
+func GetAsString(key string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
 	}
 	if strictMode {
-		log.Fatalf("%s environment variable [%s] not set", logPrefix, key)
+		fmt.Fatalf("%s environment variable [%s] not set", logPrefix, key)
 	}
-	return defaultValue
+	return ""
 }
 
 // GetAsInt reads an environment variable into integer or returns a default value
-func GetAsInt(name string, defaultValue int) int {
-	valueStr := GetAsString(name, "")
+func GetAsInt(name string) int {
+	valueStr := GetAsString(name)
 	value, err := strconv.Atoi(valueStr)
 	if err != nil {
-		return defaultValue
+		fmt.Fatalf("%s environment variable [%s] not an int", logPrefix, name)
 	}
 	return value
 }
 
 // GetAsBool reads an environment variable into a bool or return default value
-func GetAsBool(name string, defaultValue bool) bool {
-	valStr := GetAsString(name, "")
-	if val, err := strconv.ParseBool(valStr); err == nil {
+func GetAsBool(name string) bool {
+	valStr := GetAsString(name)
+	if val, err := strconv.ParseBool(valStr); err != nil {
 		return val
 	}
-	return defaultValue
+	if strictMode {
+		fmt.Fatalf("%s environment variable [%s] not a boolean", logPrefix, name)
+	}
+	return false
 }
 
 // GetAsSlice reads an environment variable into a string slice or returns the default value
-func GetAsSlice(name string, defaultValue []string, sep string) []string {
-	valStr := GetAsString(name, "")
-
-	if valStr == "" {
-		return defaultValue
-	}
+func GetAsSlice(name string, sep string) []string {
+	valStr := GetAsString(name)
 	return strings.Split(valStr, sep)
 }
