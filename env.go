@@ -1,7 +1,7 @@
 package env
 
 import (
-	fmt "log"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -41,7 +41,8 @@ func GetAsString(key string) string {
 		return value
 	}
 	if strictMode {
-		fmt.Fatalf("%s environment variable [%s] not set", logPrefix, key)
+		msg := fmt.Sprintf("%s environment variable [%s] not set", logPrefix, key)
+		panic(msg)
 	}
 	return ""
 }
@@ -51,7 +52,8 @@ func GetAsInt(name string) int {
 	valueStr := GetAsString(name)
 	value, err := strconv.Atoi(valueStr)
 	if err != nil {
-		fmt.Fatalf("%s environment variable [%s] not an int", logPrefix, name)
+		msg := fmt.Sprintf("%s environment variable [%s] not an int", logPrefix, name)
+		panic(msg)
 	}
 	return value
 }
@@ -63,7 +65,8 @@ func GetAsBool(name string) bool {
 		return val
 	}
 	if strictMode {
-		fmt.Fatalf("%s environment variable [%s] not a boolean", logPrefix, name)
+		msg := fmt.Sprintf("%s environment variable [%s] not a boolean", logPrefix, name)
+		panic(msg)
 	}
 	return false
 }

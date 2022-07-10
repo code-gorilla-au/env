@@ -1,5 +1,5 @@
 # env
-simple env vars, checks if the env var exists or returns the default provided
+simple env vars, checks if the env var exists or returns the zero value
 
 credit goes to https://github.com/17twenty for initial authoring
 
@@ -10,9 +10,9 @@ credit goes to https://github.com/17twenty for initial authoring
 
  env := env.GetAsString("ENV", "dev")
 
- isFlagEnabled := env.GetAsBool("FEATURE_ONE", false)
+ isFlagEnabled := env.GetAsBool("FEATURE_ONE")
 
- allowList := env.GetAsSlice("ALLOW_LIST", []string{"one", "two"}, ",")
+ allowList := env.GetAsSlice("ALLOW_LIST", ",")
 
 ```
 
@@ -33,6 +33,7 @@ foo := env.GetAsString("ENV", "dev")
 env.WithStrictMode()
 
 // ENV goes not exist
-foo := env.GetAsString("ENV", "dev")
+// panics
+foo := env.GetAsString("ENV")
 
 ```
