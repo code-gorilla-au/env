@@ -18,6 +18,7 @@ var (
 	strictMode = false
 )
 
+// // WithStrictMode defines whether the library should fatal on encountering a missing environmental value
 func WithStrictMode() {
 	strictMode = true
 }
