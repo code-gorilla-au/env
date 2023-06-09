@@ -26,14 +26,14 @@ func WithStrictMode() {
 // LoadEnvFile - loads .env file
 func LoadEnvFile(path string) {
 	if path == "" {
-		fmt.Printf("%s No path provided", logPrefix)
+		fmt.Printf("%s No path provided \n", logPrefix)
 		return
 	}
 	if err := godotenv.Overload(path); err != nil {
-		fmt.Printf("%s error loading file [%s]: %s", logPrefix, path, err)
+		fmt.Printf("%s error loading file [%s]: %s \n", logPrefix, path, err)
 		return
 	}
-	fmt.Printf("%s file [%s] loaded", logPrefix, path)
+	fmt.Printf("%s file [%s] loaded \n", logPrefix, path)
 }
 
 // GetAsString reads an environment or returns a default value
@@ -42,7 +42,7 @@ func GetAsString(key string) string {
 		return value
 	}
 	if strictMode {
-		msg := fmt.Sprintf("%s environment variable [%s] not set", logPrefix, key)
+		msg := fmt.Sprintf("%s environment variable [%s] not set \n", logPrefix, key)
 		panic(msg)
 	}
 	return ""
@@ -53,7 +53,7 @@ func GetAsInt(name string) int {
 	valueStr := GetAsString(name)
 	value, err := strconv.Atoi(valueStr)
 	if err != nil {
-		msg := fmt.Sprintf("%s environment variable [%s] not an int", logPrefix, name)
+		msg := fmt.Sprintf("%s environment variable [%s] not an int \n", logPrefix, name)
 		panic(msg)
 	}
 	return value
@@ -66,7 +66,7 @@ func GetAsBool(name string) bool {
 		return val
 	}
 	if strictMode {
-		msg := fmt.Sprintf("%s environment variable [%s] not a boolean", logPrefix, name)
+		msg := fmt.Sprintf("%s environment variable [%s] not a boolean \n", logPrefix, name)
 		panic(msg)
 	}
 	return false
