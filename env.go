@@ -24,16 +24,17 @@ func WithStrictMode() {
 }
 
 // LoadEnvFile - loads .env file
-func LoadEnvFile(path string) {
+func LoadEnvFile(path string) bool {
 	if path == "" {
 		fmt.Printf("%s No path provided \n", logPrefix)
-		return
+		return false
 	}
 	if err := godotenv.Overload(path); err != nil {
 		fmt.Printf("%s error loading file [%s]: %s \n", logPrefix, path, err)
-		return
+		return false
 	}
 	fmt.Printf("%s file [%s] loaded \n", logPrefix, path)
+	return true
 }
 
 // GetAsString reads an environment or returns a default value
