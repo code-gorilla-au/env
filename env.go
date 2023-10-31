@@ -63,7 +63,7 @@ func GetAsInt(name string) int {
 // GetAsBool reads an environment variable into a bool or return default value
 func GetAsBool(name string) bool {
 	valStr := GetAsString(name)
-	if val, err := strconv.ParseBool(valStr); err != nil {
+	if val, err := strconv.ParseBool(valStr); err == nil {
 		return val
 	}
 	if strictMode {
