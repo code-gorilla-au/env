@@ -42,11 +42,13 @@ func GetAsString(key string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
 	}
-	if strictMode {
-		msg := fmt.Sprintf("%s environment variable [%s] not set \n", logPrefix, key)
-		panic(msg)
+
+	if !strictMode {
+		return ""
 	}
-	return ""
+
+	msg := fmt.Sprintf("%s environment variable [%s] not set \n", logPrefix, key)
+	panic(msg)
 }
 
 // GetAsInt reads an environment variable into integer or returns a default value
