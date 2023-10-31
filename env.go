@@ -68,15 +68,24 @@ func GetAsBool(name string) bool {
 	if val, err := strconv.ParseBool(valStr); err == nil {
 		return val
 	}
-	if strictMode {
-		msg := fmt.Sprintf("%s environment variable [%s] not a boolean \n", logPrefix, name)
-		panic(msg)
+
+	if !strictMode {
+		return false
+
 	}
-	return false
+
+	msg := fmt.Sprintf("%s environment variable [%s] not a boolean \n", logPrefix, name)
+	panic(msg)
+
 }
 
 // GetAsSlice reads an environment variable into a string slice or returns the default value
 func GetAsSlice(name string, sep string) []string {
 	valStr := GetAsString(name)
+
+	if sep == "" {
+		sep = ","
+	}
+
 	return strings.Split(valStr, sep)
 }
