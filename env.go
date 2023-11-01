@@ -83,6 +83,10 @@ func GetAsBool(name string) bool {
 func GetAsSlice(name string, sep string) []string {
 	valStr := GetAsString(name)
 
+	if valStr == "" {
+		return []string{}
+	}
+
 	if sep == "" {
 		sep = ","
 	}
