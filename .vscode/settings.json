@@ -1,6 +1,10 @@
 {
     "cSpell.words": [
+        "aquasecurity",
         "godotenv",
-        "joho"
+        "gomod",
+        "goreleaser",
+        "joho",
+        "trivy"
     ]
 }
