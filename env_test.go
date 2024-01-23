@@ -172,7 +172,5 @@ func TestPanicBool(t *testing.T) {
 
 	WithStrictMode()
 
-	t.Setenv("FLASH", "fake")
-
 	GetAsBool("FLASH")
 }
