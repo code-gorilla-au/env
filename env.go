@@ -54,29 +54,27 @@ func GetAsString(key string) string {
 // GetAsInt reads an environment variable into integer or returns a default value
 func GetAsInt(name string) int {
 	valueStr := GetAsString(name)
+
 	value, err := strconv.Atoi(valueStr)
-	if err != nil {
+	if err != nil && strictMode {
 		msg := fmt.Sprintf("%s environment variable [%s] not an int \n", logPrefix, name)
 		panic(msg)
 	}
+
 	return value
 }
 
 // GetAsBool reads an environment variable into a bool or return default value
 func GetAsBool(name string) bool {
 	valStr := GetAsString(name)
-	if val, err := strconv.ParseBool(valStr); err == nil {
-		return val
+
+	val, err := strconv.ParseBool(valStr)
+	if err == nil && strictMode {
+		msg := fmt.Sprintf("%s environment variable [%s] not a boolean \n", logPrefix, name)
+		panic(msg)
 	}
 
-	if !strictMode {
-		return false
-
-	}
-
-	msg := fmt.Sprintf("%s environment variable [%s] not a boolean \n", logPrefix, name)
-	panic(msg)
-
+	return val
 }
 
 // GetAsSlice reads an environment variable into a string slice or returns the default value

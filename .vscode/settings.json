@@ -5,6 +5,8 @@
         "gomod",
         "goreleaser",
         "joho",
+        "odize",
+        "testutils",
         "trivy",
         "vuln"
     ]
