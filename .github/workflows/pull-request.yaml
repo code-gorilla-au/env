@@ -1,5 +1,5 @@
 ---
-name: odize pull request pipeline.
+name: env pull request pipeline.
 
 on:
   pull_request:

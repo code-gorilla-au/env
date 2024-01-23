@@ -1,0 +1,10 @@
+severity:
+  - UNKNOWN
+  - HIGH
+  - CRITICAL
+
+scan:
+  scanners:
+    - vuln
+    - secret
+    - license

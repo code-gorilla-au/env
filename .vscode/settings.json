@@ -5,6 +5,7 @@
         "gomod",
         "goreleaser",
         "joho",
-        "trivy"
+        "trivy",
+        "vuln"
     ]
 }

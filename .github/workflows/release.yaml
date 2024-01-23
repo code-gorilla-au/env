@@ -1,32 +1,19 @@
-# .github/workflows/release.yml
 name: Release
-
 on:
   push:
-    # run only against tags
-    tags:
-      - "*"
+    branches:
+      - main
 
 permissions:
   contents: write
 
 jobs:
-  releaser:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: stable
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
-        with:
-          distribution: goreleaser
-          version: latest
-          args: release --clean
+      - name: Release
+        uses: codfish/semantic-release-action@v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
