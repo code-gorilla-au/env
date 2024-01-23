@@ -3,6 +3,8 @@ simple env vars, checks if the env var exists or returns the zero value
 
 credit goes to https://github.com/17twenty for initial authoring
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/code-gorilla-au/env)](https://goreportcard.com/report/github.com/code-gorilla-au/env)
+[![Go Reference](https://pkg.go.dev/badge/github.com/code-gorilla-au/env.svg)](https://pkg.go.dev/github.com/code-gorilla-au/env)
 
 ## Basic use
 
