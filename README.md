@@ -39,3 +39,14 @@ env.WithStrictMode()
 foo := env.GetAsString("ENV")
 
 ```
+
+## With defaults
+
+```go
+
+env.WithStrictMode()
+
+// ENV goes not exist, returns bar
+foo := env.GetAsStringWithDefault("ENV", "bar")
+
+```
