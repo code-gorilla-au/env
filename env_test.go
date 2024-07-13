@@ -163,6 +163,19 @@ func TestPanicInt(t *testing.T) {
 	GetAsInt("TEST_ENV")
 }
 
+func TestNonStrictInt(t *testing.T) {
+	t.Setenv("TEST_ENV", "hello")
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("GetAsInt did not panic")
+		}
+	}()
+
+	WithStrictMode()
+
+	GetAsInt("TEST_ENV")
+}
+
 func TestPanicBool(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
@@ -173,4 +186,70 @@ func TestPanicBool(t *testing.T) {
 	WithStrictMode()
 
 	GetAsBool("FLASH")
+}
+
+func TestGetAsStringWithDefault(t *testing.T) {
+
+	t.Setenv("TEST_ENV", "test")
+
+	result := GetAsStringWithDefault("TEST_ENV", "default")
+	testutils.AssertEqual(t, "test", result)
+}
+
+func TestGetAsStringWithDefaultShouldReturnDefault(t *testing.T) {
+
+	result := GetAsStringWithDefault("TEST_ENV", "default")
+	testutils.AssertEqual(t, "default", result)
+}
+
+func TestGetAsIntWithDefault(t *testing.T) {
+	t.Setenv("TEST_ENV", "99")
+
+	result := GetAsIntWithDefault("TEST_ENV", 42)
+	testutils.AssertEqual(t, 99, result)
+}
+
+func TestGetAsIntWithDefaultShouldReturnDefault(t *testing.T) {
+
+	result := GetAsIntWithDefault("TEST_ENV", 42)
+	testutils.AssertEqual(t, 42, result)
+}
+
+func TestGetAsBoolWithDefault(t *testing.T) {
+	t.Setenv("TEST_ENV", "true")
+
+	result := GetAsBoolWithDefault("TEST_ENV", false)
+	testutils.AssertEqual(t, true, result)
+}
+
+func TestGetAsBoolWithDefaultShouldReturnDefault(t *testing.T) {
+
+	result := GetAsBoolWithDefault("TEST_ENV", true)
+	testutils.AssertEqual(t, true, result)
+}
+
+func TestNonStrictNonBool(t *testing.T) {
+	t.Setenv("TEST_ENV", "hello")
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("GetAsInt did not panic")
+		}
+	}()
+
+	WithStrictMode()
+
+	GetAsBool("TEST_ENV")
+}
+
+func TestGetAsSliceWithDefault(t *testing.T) {
+	t.Setenv("TEST_ENV", "hello,world")
+
+	result := GetAsSliceWithDefault("TEST_ENV", ",", []string{"default"})
+	testutils.AssertEqual(t, []string{"hello", "world"}, result)
+}
+
+func TestGetAsSliceWithDefaultShouldReturnDefault(t *testing.T) {
+
+	result := GetAsSliceWithDefault("TEST_ENV", ",", []string{"default"})
+	testutils.AssertEqual(t, []string{"default"}, result)
 }
