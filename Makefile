@@ -18,11 +18,11 @@ APP_NAME := $(REPO)
 
 GO_BUILD_FLAGS=-ldflags=""
 
+#####################
+##@ CI
+#####################
 
 ci: log scan test ## Run CI checks
-
-test: ## Run unit tests
-	go test -v --short -cover -failfast ./...
 
 scan: ## run security scan
 	govulncheck ./...
@@ -30,16 +30,40 @@ scan: ## run security scan
 	golangci-lint run ./...
 	go vet ./...
 
+
+#####################
+##@ Dev
+#####################
+
+install: tools-get tools-dev ## Install project tools
+
+test: ## Run unit tests
+	go test -v --short -cover -failfast ./...
+
+test-watch: ## Run unit tests in watch mode
+	gow test -v --short -cover -failfast ./...
+
+#####################
+##@ Tools
+#####################
+
 tools-get: ## Get project tools required
 	go install golang.org/x/vuln/cmd/govulncheck@latest
 	go install github.com/securego/gosec/v2/cmd/gosec@latest
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
+tools-dev: ## get dev tools
+	go install github.com/mitranim/gow@latest
+
+#####################
+##@ Help
+#####################
+
 # HELP
 # This will output the help for each task
 # thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help: ## This help.
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 
 
