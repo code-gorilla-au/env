@@ -170,7 +170,7 @@ func GetAsSliceWithDefault(name string, sep string, defaultValue []string) []str
 // getSlice reads an environment variable into a string slice, if strict mode is on, return an error.
 func getSlice(name string, sep string) ([]string, error) {
 	valStr, err := getString(name)
-	if err != nil {
+	if err != nil || len(valStr) == 0 {
 		return []string{}, err
 	}
 

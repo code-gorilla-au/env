@@ -138,6 +138,34 @@ func TestGetAsSlice(t *testing.T) {
 	}
 }
 
+func TestEmptyGetAsSlice(t *testing.T) {
+
+	type args struct {
+		name string
+		sep  string
+	}
+	tests := []struct {
+		name string
+		args args
+		want []string
+	}{
+		{
+			name: "should return slice",
+			args: args{
+				name: "TEST_ENV",
+			},
+			want: []string{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := GetAsSlice(tt.args.name, tt.args.sep)
+			testutils.AssertEqual(t, tt.want, got)
+
+		})
+	}
+}
+
 func TestPanicSlice(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
