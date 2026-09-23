@@ -1,5 +1,5 @@
 # env
-simple env vars, checks if the env var exists or returns the zero value
+simple env vars, checks if the env var exists or returns the zero value.
 
 credit goes to https://github.com/17twenty for initial authoring
 
