@@ -50,7 +50,7 @@ test-watch: ## Run unit tests in watch mode
 tools-get: ## Get project tools required
 	go install golang.org/x/vuln/cmd/govulncheck@latest
 	go install github.com/securego/gosec/v2/cmd/gosec@latest
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	go go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.2
 
 tools-dev: ## get dev tools
 	go install github.com/mitranim/gow@latest
